@@ -14,7 +14,7 @@ class Complexe:
 		if self.im == 0:
 			return f'{self.re}'
 		if self.re == 0:
-			if type(self.im) == Fraction:
+			if type(self.im) is Fraction:
 				return f'({str(self.im)})i'
 			else:
 				return f'{str(self.im)}i'
@@ -25,11 +25,11 @@ class Complexe:
 		if self.im < 0:
 			return (
 				f'{self.re} - ({abs(self.im)})i'
-				if type(self.im) == Fraction
+				if type(self.im) is Fraction
 				else f'{self.re} - {abs(self.im)}i'
 			)
 
-		if type(self.im) == Fraction:
+		if type(self.im) is Fraction:
 			return f'{self.re} + ({str(self.im)})i'
 		return f'{self.re} + {str(self.im)}i'
 
@@ -43,7 +43,7 @@ class Complexe:
 		return Complexe(self.re * other.re - self.im * other.im, self.re * other.im + self.im * other.re)
 
 	def __add__(self, other):
-		if type(other) == int:
+		if type(other) is int:
 			return self + Complexe(other)
 		return Complexe(self.re + other.re, self.im + other.im)
 
@@ -60,7 +60,7 @@ class Complexe:
 		return self.conj() / (self.module() ** 2)
 
 	def __truediv__(self, other):
-		if type(other) == int:
+		if type(other) is int:
 			return self * Complexe(1 / other)
 		return self * other.inverse()
 
@@ -123,7 +123,7 @@ class Polynome:
 
 	@staticmethod
 	def mise_en_forme_solutions(nombres):
-		if type(nombres) == tuple:
+		if type(nombres) is tuple:
 			a, b = nombres
 			if int(a) == a:
 				a = int(a)
