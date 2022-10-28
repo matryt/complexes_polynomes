@@ -1,5 +1,5 @@
 from fractions import Fraction
-from math import sqrt
+from math import sqrt, atan2, pi
 
 
 class Complexe:
@@ -76,12 +76,14 @@ class Complexe:
 	def __eq__(self, other):
 		if type(other) != Complexe:
 			return self == Complexe(other)
-		return self.re == other.re and self.im == other.im
+		return is_equal(self.re, other.re) and is_equal(self.im, other.im)
 
 	def __hash__(self):
-		hash((self.re, self.im))
+		return hash((self.re, self.im))
 
 	def module(self):
+		if int(self.mod) == self.mod:
+			self.mod = int(self.mod)
 		return self.mod
 
 	def conj(self):
@@ -98,11 +100,33 @@ class Complexe:
 	def __rtruediv__(self, other):
 		return other * self.inverse()
 
+	def arg(self):
+		if self.re > 0:
+			return atan2(self.im / self.re)
+		if self.re < 0:
+			return atan2(self.im / self.re) + pi
+		if self.re == 0:
+			if self.im > 0:
+				return pi/2
+			elif self.im < 0:
+				return -pi/2
+		if self.re == self.im == 0:
+			raise ValueError("Le nombre complexe 0 n'a pas d'argument !")
+
 	def simplify(self):
 		if self.im == int(self.im):
 			self.im = int(self.im)
 		if self.re == int(self.re):
 			self.re = int(self.re)
+
+	def as_expo(self):
+		a = self.arg()
+		if a < 0:
+			return f"{self.module()}e^(-{abs(self.arg())}i)"
+		return f"{self.module()}e^({abs(self.arg())}i)"
+
+	def as_trigo(self):
+		return f"{self.module()}(cos({self.arg()}) + i sin({self.arg()}))"
 
 
 def equation_degre_2(a, b, c):
@@ -169,3 +193,6 @@ class Polynome:
 			return a, b
 		if int(nombres) == nombres:
 			return int(nombres)
+
+def is_equal(a, b):
+	return abs(a - b) < 10**-15
