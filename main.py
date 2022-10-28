@@ -74,7 +74,12 @@ class Complexe:
 		return self * self.__pow__(o-1)
 
 	def __eq__(self, other):
+		if type(other) != Complexe:
+			return self == Complexe(other)
 		return self.re == other.re and self.im == other.im
+
+	def __hash__(self):
+		hash((self.re, self.im))
 
 	def module(self):
 		return self.mod
