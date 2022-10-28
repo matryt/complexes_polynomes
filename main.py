@@ -18,19 +18,22 @@ class Complexe:
 		if self.re == 0:
 			if type(self.im) is Fraction:
 				return f'({str(self.im)})i'
-			return f'{str(self.im)}i'
+			else:
+				return f'{str(self.im)}i'
 		if self.im == 1:
 			return f'{self.re} + i'
 		if self.im == -1:
 			return f'{self.re} - i'
 		if self.im < 0:
-			if type(self.im) is Fraction:
-				return f'{self.re} - ({abs(self.im)})i'
-			return f'{self.re} - {abs(self.im)}i'
-		else:
-			if type(self.im) is Fraction:
-				return f'{self.re} + ({str(self.im)})i'
-			return f'{self.re} + {str(self.im)}i'
+			return (
+				f'{self.re} - ({abs(self.im)})i'
+				if type(self.im) is Fraction
+				else f'{self.re} - {abs(self.im)}i'
+			)
+
+		if type(self.im) is Fraction:
+			return f'{self.re} + ({str(self.im)})i'
+		return f'{self.re} + {str(self.im)}i'
 
 	def __mul__(self, other):
 		if type(other) != Complexe:
@@ -130,14 +133,10 @@ class Polynome:
 	def repr_a_nul(self):
 		if self.b == 0:
 			return f"{self.c}"
-		if self.c == 0:
-			return f"{self.b}x"
-		return f"{self.b}x + {self.c}"
+		return f"{self.b}x" if self.c == 0 else f"{self.b}x + {self.c}"
 
 	def repr_b_nul(self):
-		if self.c == 0:
-			return f"{self.a}x^2"
-		return f"{self.a}x^2 + {self.c}"
+		return f"{self.a}x^2" if self.c == 0 else f"{self.a}x^2 + {self.c}"
 
 	def repr_c_nul(self):
 		return f"{self.a}x^2 + {self.b}x"
